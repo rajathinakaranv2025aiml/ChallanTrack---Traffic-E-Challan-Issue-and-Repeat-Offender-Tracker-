@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ChallanTrack</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<div class="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">CT</div>
+        <div>
+            <h2>ChallanTrack</h2>
+            <span>Traffic Management</span>
+        </div>
+    </div>
+
+    <div class="menu">
+
+        <button class="menu-item active" onclick="showSection('dashboard')">
+            <span>⌂</span>
+            Dashboard
+        </button>
+
+        <button class="menu-item" onclick="showSection('vehicles')">
+            <span>🚗</span>
+            Vehicles
+        </button>
+
+        <button class="menu-item" onclick="showSection('violations')">
+            <span>⚠</span>
+            Violations
+        </button>
+
+        <button class="menu-item" onclick="showSection('challans')">
+            <span>📄</span>
+            Challans
+        </button>
+
+        <button class="menu-item" onclick="showSection('payments')">
+            <span>💳</span>
+            Payments
+        </button>
+
+    </div>
+
+    <div class="sidebar-bottom">
+        <div class="system-status">
+            <span class="status-dot"></span>
+            System Online
+        </div>
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div>
+            <h1 id="pageTitle">Dashboard</h1>
+            <p>Traffic challan management system</p>
+        </div>
+
+        <div class="header-right">
+            <span id="connectionStatus">● Backend Connected</span>
+        </div>
+
+    </header>
+
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <section id="dashboard" class="section active">
+
+        <div class="welcome">
+            <div>
+                <h2>Welcome to ChallanTrack</h2>
+                <p>Manage vehicles, violations, challans and payments.</p>
+            </div>
+
+            <button onclick="loadDashboard()">↻ Refresh</button>
+        </div>
+
+
+        <!-- STAT CARDS -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <div class="stat-icon vehicle-icon">🚗</div>
+                <div>
+                    <p>Total Vehicles</p>
+                    <h2 id="vehicleCount">0</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon violation-icon">⚠</div>
+                <div>
+                    <p>Violation Types</p>
+                    <h2 id="violationCount">0</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon challan-icon">📄</div>
+                <div>
+                    <p>Total Challans</p>
+                    <h2 id="challanCount">0</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon payment-icon">₹</div>
+                <div>
+                    <p>Paid Challans</p>
+                    <h2 id="paidCount">0</h2>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+                <h3>Quick Actions</h3>
+            </div>
+
+            <div class="quick-actions">
+
+                <button onclick="showSection('vehicles')">
+                    <span>🚗</span>
+                    <b>Add Vehicle</b>
+                    <small>Register a new vehicle</small>
+                </button>
+
+                <button onclick="showSection('violations')">
+                    <span>⚠</span>
+                    <b>Add Violation</b>
+                    <small>Create violation type</small>
+                </button>
+
+                <button onclick="showSection('challans')">
+                    <span>📄</span>
+                    <b>Issue Challan</b>
+                    <small>Create new challan</small>
+                </button>
+
+                <button onclick="showSection('payments')">
+                    <span>💳</span>
+                    <b>Make Payment</b>
+                    <small>Pay a challan</small>
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= VEHICLES ================= -->
+
+    <section id="vehicles" class="section">
+
+        <div class="section-heading">
+            <div>
+                <h2>Vehicle Management</h2>
+                <p>Register and view vehicles.</p>
+            </div>
+        </div>
+
+        <div class="form-panel">
+
+            <h3>Register Vehicle</h3>
+
+            <div class="form-grid">
+
+                <input
+                        type="text"
+                        id="vehicleNumber"
+                        placeholder="Vehicle Number">
+
+                <input
+                        type="text"
+                        id="ownerName"
+                        placeholder="Owner Name">
+
+                <select id="vehicleType">
+                    <option value="">Select Vehicle Type</option>
+                    <option value="CAR">Car</option>
+                    <option value="BIKE">Bike</option>
+                    <option value="AUTO">Auto</option>
+                    <option value="BUS">Bus</option>
+                    <option value="TRUCK">Truck</option>
+                </select>
+
+                <button class="primary-btn" onclick="addVehicle()">
+                    Add Vehicle
+                </button>
+
+            </div>
+
+            <p id="vehicleMessage" class="message"></p>
+
+        </div>
+
+
+        <div class="table-panel">
+
+            <div class="panel-header">
+                <h3>Registered Vehicles</h3>
+
+                <button class="refresh-btn" onclick="loadVehicles()">
+                    ↻ Refresh
+                </button>
+            </div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Vehicle Number</th>
+                        <th>Owner</th>
+                        <th>Vehicle Type</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="vehicleTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= VIOLATIONS ================= -->
+
+    <section id="violations" class="section">
+
+        <div class="section-heading">
+            <div>
+                <h2>Violation Management</h2>
+                <p>Configure traffic violation types and fines.</p>
+            </div>
+        </div>
+
+        <div class="form-panel">
+
+            <h3>Add Violation Type</h3>
+
+            <div class="form-grid">
+
+                <input
+                        type="text"
+                        id="violationName"
+                        placeholder="Violation Name">
+
+                <input
+                        type="number"
+                        id="baseFine"
+                        placeholder="Base Fine">
+
+                <input
+                        type="number"
+                        id="escalationPercent"
+                        placeholder="Escalation %">
+
+                <button class="primary-btn" onclick="addViolation()">
+                    Add Violation
+                </button>
+
+            </div>
+
+            <p id="violationMessage" class="message"></p>
+
+        </div>
+
+
+        <div class="table-panel">
+
+            <div class="panel-header">
+
+                <h3>Violation Types</h3>
+
+                <button class="refresh-btn" onclick="loadViolations()">
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Violation</th>
+                        <th>Base Fine</th>
+                        <th>Escalation</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="violationTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CHALLANS ================= -->
+
+    <section id="challans" class="section">
+
+        <div class="section-heading">
+
+            <div>
+                <h2>Challan Management</h2>
+                <p>Issue and monitor traffic challans.</p>
+            </div>
+
+        </div>
+
+
+        <div class="form-panel">
+
+            <h3>Issue New Challan</h3>
+
+            <div class="form-grid">
+
+                <input
+                        type="number"
+                        id="challanVehicleId"
+                        placeholder="Vehicle ID">
+
+                <input
+                        type="number"
+                        id="challanViolationId"
+                        placeholder="Violation Type ID">
+
+                <button class="primary-btn" onclick="issueChallan()">
+                    Issue Challan
+                </button>
+
+            </div>
+
+            <p id="challanMessage" class="message"></p>
+
+        </div>
+
+
+        <div class="table-panel">
+
+            <div class="panel-header">
+
+                <h3>All Challans</h3>
+
+                <button class="refresh-btn" onclick="loadChallans()">
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Vehicle</th>
+                        <th>Violation</th>
+                        <th>Fine</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="challanTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PAYMENTS ================= -->
+
+    <section id="payments" class="section">
+
+        <div class="section-heading">
+
+            <div>
+                <h2>Payment Management</h2>
+                <p>Process challan payments.</p>
+            </div>
+
+        </div>
+
+
+        <div class="form-panel">
+
+            <h3>Make Payment</h3>
+
+            <div class="form-grid">
+
+                <input
+                        type="number"
+                        id="paymentChallanId"
+                        placeholder="Challan ID">
+
+                <select id="paymentMethod">
+
+                    <option value="">Payment Method</option>
+
+                    <option value="UPI">UPI</option>
+
+                    <option value="CARD">Card</option>
+
+                    <option value="CASH">Cash</option>
+
+                    <option value="NET_BANKING">
+                        Net Banking
+                    </option>
+
+                </select>
+
+                <button class="primary-btn" onclick="makePayment()">
+                    Pay Challan
+                </button>
+
+            </div>
+
+            <p id="paymentMessage" class="message"></p>
+
+        </div>
+
+
+        <div class="payment-info">
+
+            <div>
+                <span>Payment System</span>
+                <strong>Active</strong>
+            </div>
+
+            <div>
+                <span>Supported Methods</span>
+                <strong>UPI / Card / Cash / Net Banking</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
